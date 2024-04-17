@@ -2,7 +2,7 @@
 FROM maven:3.8.2-jdk-11 AS build
 WORKDIR /app
 COPY . .
-RUN mvn clean package -Pprod -DskipTests
+RUN mvn clean package -DskipTests
 
 # Second stage: Run the Spring Boot application
 FROM openjdk:11-jdk-slim
