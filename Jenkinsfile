@@ -32,6 +32,8 @@ pipeline {
                     sh """
                         if [ \$(docker ps -q -f name=${APP_NAME}) ]; then
                             docker stop ${APP_NAME}
+                        fi
+                        if [ \$(docker ps -a -q -f name=${APP_NAME}) ]; then
                             docker rm ${APP_NAME}
                         fi
                     """
