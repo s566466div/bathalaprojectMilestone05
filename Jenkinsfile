@@ -23,14 +23,14 @@ pipeline {
         stage('Stop Old Container') {
             steps {
                 script {
-                    sh '''
+                    sh """
                         if [ "$(docker ps -q -f name=${APP_NAME})" ]; then
                             docker stop ${APP_NAME}
                         fi
                         if [ "$(docker ps -a -q -f name=${APP_NAME})" ]; then
                             docker rm ${APP_NAME}
                         fi
-                    '''
+                    """
                 }
             }
         }
@@ -39,6 +39,15 @@ pipeline {
             steps {
                 sh "docker run -d --name ${APP_NAME} -p 8080:8080 ${APP_NAME}:${DOCKER_TAG}"
             }
+        }
+    }
+
+    post {
+        success {
+            echo "✅ Deployment successful!"
+        }
+        failure {
+            echo "❌ Deployment failed! Check logs."
         }
     }
 }
